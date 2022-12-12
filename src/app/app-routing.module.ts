@@ -5,15 +5,12 @@ import { MainForecastsComponent } from './features/forecasts/main-forecasts/main
 
 const routes: Routes = [
   {
-    path: '', redirectTo: '/today', pathMatch: 'full'
-  },
-  {
-    path: 'today', loadChildren: () => import('./features/current-weather/current-weather.module').then(m => m.CurrentWeatherModule)
+    path: '', loadChildren: () => import('./features/current-weather/current-weather.module').then(m => m.CurrentWeatherModule)
   },
   {
     path: 'forecast', loadChildren: () => import('./features/forecasts/forecasts.module').then(m => m.ForecastsModule)
   },
-  { path: '**', redirectTo: '/today', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
