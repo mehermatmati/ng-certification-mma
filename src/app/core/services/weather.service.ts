@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, interval, map, Observable, Subject, switchMap, takeUntil, tap, timer} from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
 
 import {HttpClient} from '@angular/common/http';
 import { DailyForecast } from '../../shared/models/daily-forecast.model';
