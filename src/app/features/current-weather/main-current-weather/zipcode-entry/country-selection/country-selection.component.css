@@ -1,0 +1,7 @@
+.list-group{
+    position: absolute;
+}
+
+.list-group-item{
+    cursor: pointer;
+}

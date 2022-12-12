@@ -1,0 +1,4 @@
+.done, .done:disabled{
+    background-color:  green !important;
+    opacity: 100% !important;
+}

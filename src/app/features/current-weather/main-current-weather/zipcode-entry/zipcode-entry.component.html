@@ -1,0 +1,30 @@
+<div class="well flex">
+  <h2>Enter a location:</h2>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-xs-6">
+        <input type="text" formControlName="needle" placeholder="Enter zip code" class="form-control">
+        <br>
+      </div>
+      <div class="col-xs-6">
+       <app-country-selection formControlName="country" [countries]="countries"></app-country-selection>
+        <br>
+      </div>
+      <div class="row">
+        <div class="button-section col-xs-12 ml-2">
+          <span class="small-text danger">{{message}}</span>
+        </div>
+        <div class="button-section col-xs-12 ml-2">
+          <app-save-button-states [initialTemplate]="add" [doneTemplate]="done" [loadingTemplate]="adding" [getStatus$]="getStatus$" [invalidForm]="form.invalid" (clickEmitter)="addLocation()"></app-save-button-states>
+          <ng-template #add> Add location </ng-template>
+            <ng-template #adding> Adding ... </ng-template>
+            <ng-template #done>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+            </svg>&nbsp;Done
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

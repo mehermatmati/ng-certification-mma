@@ -1,0 +1,9 @@
+
+<ng-container *ngIf="!!element">
+    {{ (element.dt * 1000) | date:'EEEE, MMM d'}}:
+    <span>{{element.weather[0].main}}</span>
+    - Min: <span [innerHTML]="+element.temp.min | tempSpan"></span>
+    - Max: <span [innerHTML]="+element.temp.max | tempSpan"></span>
+
+    <img [src]="getWeatherIcon(element.weather[0].id)" class="icon">
+</ng-container>

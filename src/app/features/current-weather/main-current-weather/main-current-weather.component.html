@@ -1,0 +1,5 @@
+<div class="container-fluid">
+  <app-zipcode-entry (addLocationEmitter)="receiveAddLocation($event)" [message]="message" [getStatus$]="getBtnStateObservable()" [countries]="countries"> </app-zipcode-entry>
+  <app-current-conditions [locations]="locations" (removeLocationEmitter)="receiveRemoveWeather($event)"></app-current-conditions>
+</div>
+

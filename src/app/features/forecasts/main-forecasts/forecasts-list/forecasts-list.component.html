@@ -1,0 +1,6 @@
+<ul class="list-group">
+  <li *ngFor="let dailyForecast of forecast?.list" class="list-group-item">
+      <app-forecast-element [element]="dailyForecast"></app-forecast-element>
+  </li>
+</ul>
+

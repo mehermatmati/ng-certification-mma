@@ -1,0 +1,13 @@
+.close {
+  cursor: pointer;
+  z-index: 2;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.temp-section {
+  margin-left: 3rem !important;
+  margin-bottom: 2rem;
+}

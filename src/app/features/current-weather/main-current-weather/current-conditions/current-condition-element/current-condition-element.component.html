@@ -1,0 +1,31 @@
+<div class="well flex" >
+  <div (click)="showForecast(location.zip)">
+    <h3>{{location?.data?.name}} ({{location?.zip}})</h3>
+    <h4>Current conditions: {{location?.data?.weather[0]?.main}}</h4>
+    <h4>Temperatures today:</h4>
+      <div class="temp-section">
+        <div class="row">
+          <div class="col-12">
+            <b>Current: </b> <span [innerHTML]="location?.data?.main?.temp | tempSpan"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <b>- Max: </b> <span [innerHTML]="location?.data?.main?.temp_max | tempSpan"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <b>- Min: </b> <span [innerHTML]="location?.data?.main?.temp_min | tempSpan"></span>
+          </div>
+        </div>
+       </div>
+    <p>
+      <a [routerLink]="['/forecast', location?.zip]" >Show 5-day forecast for {{location?.data?.name}}</a>
+    </p>
+  </div>
+  <div>
+    <span class="close" (click)="removeLocation(location?.zip)">&times;</span>
+    <img [src]="getWeatherIcon(location?.data?.weather[0].id)">
+  </div>
+</div>
