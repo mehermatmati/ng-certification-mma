@@ -35,7 +35,7 @@ export class ZipcodeEntryComponent implements OnInit, OnDestroy {
   }
 
   addLocation(){
-    let country = this.countries.filter(item => item.name = this.form.controls['country'].value)[0];
+    let country = this.countries.filter(item => item.name == this.form.controls['country'].value)[0];
     this.addLocationEmitter.emit({zip: +this.form.controls['needle'].value, iso: country? country.alpha2Code : "US"});
   }
 
