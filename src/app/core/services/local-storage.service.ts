@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs"
 import { LocalStorageElement } from "src/app/shared/models/local-storage-element.model";
 
-const LOCATIONS : string = "locations";
+const LOCATIONS : string = "weathers";
 
 @Injectable()
 export class LocalStorageService {
