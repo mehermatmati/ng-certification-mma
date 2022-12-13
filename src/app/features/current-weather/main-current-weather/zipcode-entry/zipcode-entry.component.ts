@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { Country } from 'src/app/shared/models/contry.model';
+import { LocalStorageElement } from 'src/app/shared/models/local-storage-element.model';
 import { Status } from '../../../../shared/models/enums/status.enum';
 
 @Component({
@@ -11,12 +13,12 @@ import { Status } from '../../../../shared/models/enums/status.enum';
 })
 export class ZipcodeEntryComponent implements OnInit, OnDestroy {
   @Output()
-  addLocationEmitter: EventEmitter<number> = new EventEmitter<number>();
+  addLocationEmitter: EventEmitter<LocalStorageElement> = new EventEmitter<LocalStorageElement>();
   @Input() getStatus$: Observable<Status> = new Observable();
   @Input() message: string | null = null;
   private _subject$ = new Subject<void>();
 
-  @Input() countries : string[] = [];
+  @Input() countries : Country[] = [];
 
   form : FormGroup = new FormGroup(
     {
@@ -33,7 +35,8 @@ export class ZipcodeEntryComponent implements OnInit, OnDestroy {
   }
 
   addLocation(){
-    this.addLocationEmitter.emit(+this.form.controls['needle'].value);
+    let country = this.countries.filter(item => item.name = this.form.controls['country'].value)[0];
+    this.addLocationEmitter.emit({zip: +this.form.controls['needle'].value, iso: country? country.alpha2Code : "US"});
   }
 
   private getButtonStatusToResetForm(){

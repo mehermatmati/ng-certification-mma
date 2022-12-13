@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MainForecastsComponent } from './main-forecasts/main-forecasts.component';
 
-const routes = [  { path: ':zipcode', component: MainForecastsComponent }]
+const routes = [  { path: ':iso/:zipcode', component: MainForecastsComponent }]
 
 @NgModule({
   imports: [ RouterModule.forChild(routes) ],

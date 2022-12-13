@@ -1,5 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { time } from 'console';
 import { catchError, combineLatest, distinctUntilChanged, forkJoin, Observable, of, Subject, switchMap, takeUntil, tap, throwError, timer} from 'rxjs';
+import { Country } from 'src/app/shared/models/contry.model';
+import { LocalStorageElement } from 'src/app/shared/models/local-storage-element.model';
 import { CountryService } from '../../../core/services/contries.service';
 import { LocalStorageService } from '../../../core/services/local-storage.service';
 import { WeatherService } from '../../../core/services/weather.service';
@@ -17,7 +20,7 @@ export class MainCurrentWeatherComponent implements OnInit, OnDestroy, AfterView
   @ViewChild(ZipcodeEntryComponent) private _zipcondeEntryComponent : ZipcodeEntryComponent;
   locations : Location[] = [];
   message: string | null = null;
-  countries : string[] = [];
+  countries : Country[] = [];
   private _subject$ = new Subject<void>();
   private _observables$: Observable<Location>[] = [];
   constructor(private _weatherService: WeatherService, private _localStorageService: LocalStorageService, private _countryService: CountryService, private _cdr: ChangeDetectorRef){}
@@ -47,8 +50,8 @@ export class MainCurrentWeatherComponent implements OnInit, OnDestroy, AfterView
     ).subscribe(data => {this.locations = data});
   }
 
-  receiveAddLocation($event : number) {
-        if(this._localStorageService.getAll().includes($event)) {
+  receiveAddLocation($event : LocalStorageElement) {
+        if(this._localStorageService.checkIfElementExist($event)) {
           this.message = "The location already exist";
         }
         else {
@@ -56,24 +59,25 @@ export class MainCurrentWeatherComponent implements OnInit, OnDestroy, AfterView
         }
   }
 
-  receiveRemoveWeather($event: number){
+  receiveRemoveWeather($event: LocalStorageElement){
     this._localStorageService.removeOne($event);
     this.initObservable();
-    this.locations = this.locations.filter(location => location.zip != $event)
+    this.locations = this.locations.filter(location => location.zip != $event.zip && location.iso != $event.iso);
   }
 
   getBtnStateObservable(): Observable<Status> {
     return this._weatherService.buttonState;
   }
 
-  addWeather(zipcode: number){
+  addWeather(item: LocalStorageElement){
+
     this._weatherService._buttonState.next(Status.Loading)
-        let getWeather$ =this._weatherService.getWeather(zipcode).pipe(
+        let getWeather$ =this._weatherService.getWeather(item).pipe(
           tap(data => {
             this.locations = [...this.locations, data];
-            this._localStorageService.add(zipcode);
+            this._localStorageService.add(item);
             this.message = null;
-            this._observables$.push(this._weatherService.getWeather(zipcode));
+            this._observables$.push(this._weatherService.getWeather(item));
             this._weatherService._buttonState.next(Status.Done);
         }),
         catchError(error=>  {
@@ -107,7 +111,7 @@ export class MainCurrentWeatherComponent implements OnInit, OnDestroy, AfterView
     ).subscribe(data => this.countries = data);
   }
 
-  getCountryObservable(needle : string) : Observable<string[]>{
+  getCountryObservable(needle : string) : Observable<Country[]>{
     return this._countryService.getByName(needle).pipe(
       catchError(() => of([]))
     )

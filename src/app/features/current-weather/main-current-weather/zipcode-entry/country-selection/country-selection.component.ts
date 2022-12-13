@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Country } from 'src/app/shared/models/contry.model';
 
 @Component({
   selector: 'app-country-selection',
@@ -15,7 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CountrySelectionComponent implements ControlValueAccessor{
-  @Input() countries : string[] = [];
+  @Input() countries : Country[] = [];
 
   set value(val: string) {
     this.onChange(val);

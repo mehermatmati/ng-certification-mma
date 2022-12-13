@@ -8,10 +8,9 @@ export class CountryService {
     static URL ="https://restcountries.com"
     constructor(private http: HttpClient) { }
 
-    getByName(needle: string) : Observable<string[]> {
+    getByName(needle: string) : Observable<Country[]> {
         return this.http.get<Country[]>(CountryService.URL+`/v2/name/${needle}`).pipe(
-            map(data => data.map(country => country.name)),
-            map(data => data.filter(name => name.toUpperCase().includes(needle.toUpperCase())))
+            map(data => data.filter(country => country.name.toUpperCase().includes(needle.toUpperCase())))
             );
     }
 }

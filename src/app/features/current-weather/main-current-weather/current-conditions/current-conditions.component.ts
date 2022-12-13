@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { LocalStorageElement } from 'src/app/shared/models/local-storage-element.model';
 import { WeatherService } from '../../../../core/services/weather.service';
 import { Location } from '../../../../shared/models/location.model';
 
@@ -14,7 +15,7 @@ export class CurrentConditionsComponent {
   locations: Location[] = [];
 
   @Output()
-  removeLocationEmitter : EventEmitter<number> = new EventEmitter<number>();
+  removeLocationEmitter : EventEmitter<LocalStorageElement> = new EventEmitter<LocalStorageElement>();
 
   constructor(public weatherService : WeatherService) {
   }
@@ -23,8 +24,8 @@ export class CurrentConditionsComponent {
     return item.zip;
   }
 
-  removeLocation(zipCode : number) {
-    this.removeLocationEmitter.emit(zipCode);
+  removeLocation(element : LocalStorageElement) {
+    this.removeLocationEmitter.emit(element);
   }
 
 }

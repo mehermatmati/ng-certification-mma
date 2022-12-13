@@ -1,6 +1,6 @@
 <input #countryInput type="text" placeholder="Enter country" class="form-control" list="countries" [(ngModel)]="_value" (ngModelChange)="onChange($event)">
 <ul class="list-group" id="countries">
-  <li class="list-group-item" list-group-item *ngFor="let country of countries" (click)="clickCountry(country)">
-    <span [innerHTML]="country.toUpperCase()| boldSpan:countryInput.value.toUpperCase().trim()"></span>
+  <li class="list-group-item" list-group-item *ngFor="let country of countries" (click)="clickCountry(country.name)">
+    <span [innerHTML]="country.name.toUpperCase()| boldSpan:countryInput.value.toUpperCase().trim()"></span>
   </li>
 </ul>

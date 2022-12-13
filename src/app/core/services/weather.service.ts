@@ -6,6 +6,7 @@ import { DailyForecast } from '../../shared/models/daily-forecast.model';
 import { Location } from '../../shared/models/location.model';
 import { LocationData } from '../../shared/models/location-data.model';
 import { Status } from '../../shared/models/enums/status.enum';
+import { LocalStorageElement } from 'src/app/shared/models/local-storage-element.model';
 
 @Injectable()
 export class WeatherService {
@@ -21,15 +22,28 @@ export class WeatherService {
   static APPID = '5a4b2d457ecbef9eb2a71e480b947604';
   constructor(private http: HttpClient) { }
 
-  getWeather(zipcode: number): Observable<Location> {
-    return this.http.get<LocationData>(`${WeatherService.URL}/weather?zip=${zipcode},us&units=imperial&APPID=${WeatherService.APPID}`).pipe(
-      map(data => {return {zip: zipcode, data: data}})
-    );
+  getWeather(info : LocalStorageElement): Observable<Location> {
+    if(info.iso && info.iso.length>0) {
+      return this.http.get<LocationData>(`${WeatherService.URL}/weather?zip=${info.zip},${info.iso}&units=imperial&APPID=${WeatherService.APPID}`).pipe(
+        map(data => {return {zip: info.zip, iso: info.iso, data: data}})
+      );
+    }
+    else {
+      return this.http.get<LocationData>(`${WeatherService.URL}/weather?zip=${info.zip},us&units=imperial&APPID=${WeatherService.APPID}`).pipe(
+        map(data => {return {zip: info.zip, iso: info.iso, data: data}})
+      );
+    }
+
   }
 
-  getForecast(zipcode: number): Observable<DailyForecast> {
+  getForecast(info : LocalStorageElement): Observable<DailyForecast> {
+    if(info.iso && info.iso.length>0) {
+      return this.http.get<DailyForecast>(`${WeatherService.URL}/forecast/daily?zip=${info.zip},${info.iso}&units=imperial&cnt=5&APPID=${WeatherService.APPID}`);
+    }
+    else {
+      return this.http.get<DailyForecast>(`${WeatherService.URL}/forecast/daily?zip=${info.zip}&units=imperial&cnt=5&APPID=${WeatherService.APPID}`);
+    }
     // Here we make a request to get the forecast data from the API. Note the use of backticks and an expression to insert the zipcode
-    return this.http.get<DailyForecast>(`${WeatherService.URL}/forecast/daily?zip=${zipcode},us&units=imperial&cnt=5&APPID=${WeatherService.APPID}`);
 
   }
 

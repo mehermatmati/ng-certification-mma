@@ -18,7 +18,7 @@ export class MainForecastsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      concatMap(params => {return this.weatherService.getForecast(params['zipcode'])}),
+      concatMap(params => {return this.weatherService.getForecast({iso: params['iso'] , zip:params['zipcode']})}),
       takeUntil(this._subject$)
     )
     .subscribe(data => this.forecast = data);
