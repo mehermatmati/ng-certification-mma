@@ -4,4 +4,5 @@
 
 .list-group-item{
     cursor: pointer;
+    z-index: 3;
 }
