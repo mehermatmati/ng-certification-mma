@@ -27,7 +27,7 @@ export class LocalStorageService {
 
     removeOne(element : LocalStorageElement) {
         let zips = this.getAll();
-        localStorage.setItem(LOCATIONS, JSON.stringify(zips.filter(item => item.iso!=element.iso && item.zip!=element.zip)));
+        localStorage.setItem(LOCATIONS, JSON.stringify(zips.filter(item => item.iso!=element.iso || item.zip!=element.zip)));
     }
 
     removeAll() {

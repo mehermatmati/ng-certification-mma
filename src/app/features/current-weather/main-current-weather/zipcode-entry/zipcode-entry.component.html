@@ -7,7 +7,7 @@
         <br>
       </div>
       <div class="col-xs-6">
-       <app-country-selection formControlName="country" [countries]="countries"></app-country-selection>
+       <app-country-selection [countries]="countries" (emitClicked)="receiveClicked($event)" (emitChanged)="receiveChange($event)"></app-country-selection>
         <br>
       </div>
       <div class="row">

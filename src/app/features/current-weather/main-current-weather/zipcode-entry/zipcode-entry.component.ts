@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Country } from 'src/app/shared/models/contry.model';
 import { LocalStorageElement } from 'src/app/shared/models/local-storage-element.model';
 import { Status } from '../../../../shared/models/enums/status.enum';
+import { CountrySelectionComponent } from './country-selection/country-selection.component';
 
 @Component({
   selector: 'app-zipcode-entry',
@@ -16,6 +17,7 @@ export class ZipcodeEntryComponent implements OnInit, OnDestroy {
   addLocationEmitter: EventEmitter<LocalStorageElement> = new EventEmitter<LocalStorageElement>();
   @Input() getStatus$: Observable<Status> = new Observable();
   @Input() message: string | null = null;
+  @ViewChild(CountrySelectionComponent) countrySelectionComponent: CountrySelectionComponent;
   private _subject$ = new Subject<void>();
 
   @Input() countries : Country[] = [];
@@ -39,6 +41,14 @@ export class ZipcodeEntryComponent implements OnInit, OnDestroy {
     this.addLocationEmitter.emit({zip: +this.form.controls['needle'].value, iso: country? country.alpha2Code : "US"});
   }
 
+  receiveClicked($event: string) {
+    this.form.controls['country'].setValue($event, {emitEvent : false})
+  }
+
+  receiveChange($event: string) {
+    this.form.controls['country'].setValue($event, {emitEvent : true})
+  }
+
   private getButtonStatusToResetForm(){
     this.getStatus$.pipe(
       filter(status => status == Status.Initial || status == Status.Done),
@@ -46,6 +56,7 @@ export class ZipcodeEntryComponent implements OnInit, OnDestroy {
       )
     .subscribe(() => {
         this.form.reset();
+        this.countrySelectionComponent?.country?.reset();
     })
   }
 

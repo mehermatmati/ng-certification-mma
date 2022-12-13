@@ -62,7 +62,7 @@ export class MainCurrentWeatherComponent implements OnInit, OnDestroy, AfterView
   receiveRemoveWeather($event: LocalStorageElement){
     this._localStorageService.removeOne($event);
     this.initObservable();
-    this.locations = this.locations.filter(location => location.zip != $event.zip && location.iso != $event.iso);
+    this.locations = this.locations.filter(location => location.zip != $event.zip || location.iso != $event.iso);
   }
 
   getBtnStateObservable(): Observable<Status> {
